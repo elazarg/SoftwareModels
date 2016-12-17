@@ -16,17 +16,15 @@ public class GeneralizedBuchiGame extends Game {
 	
 	public static void main(String[] args) {
 		GeneralizedBuchiGame game = new GeneralizedBuchiGame("games/TelescopeGeneralizedBuchi.spectra");
-
-		// computing winning states
+		game.printBuchiStates();
 		BDD win = game.computeWiningStates();
-		
-		// print some game info
-		System.out.println("Buchi states:");
-		for (int i = 0; i < game.sys.justiceNum(); i++) {
-			System.out.println(game.sys.justiceAt(i));
-		}
-
 		game.printResults(win);
+	}
+
+	public void printBuchiStates() {
+		System.out.println("Buchi states:");
+		for (int i = 0; i < sys.justiceNum(); i++)
+			System.out.println(sys.justiceAt(i));
 	}
 
 	public GeneralizedBuchiGame(String m) {
