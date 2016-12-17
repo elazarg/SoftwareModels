@@ -1,0 +1,21 @@
+module Oven
+
+type Temperature = {COLD, GOOD, TOO_HOT};
+type Position = {OPEN, CLOSED};
+
+env Temperature t;
+sys Position valve;
+
+assumption iniCold:  t=COLD;
+  
+assumption openPreventsTOO_HOT:
+  G (valve=OPEN | t=COLD) -> next(t!=TOO_HOT);
+  
+guarantee neverTooHot:  G t!=TOO_HOT;
+
+guarantee dontOpenUnlessWarm:
+  G valve=OPEN -> (t=TOO_HOT | t=GOOD);
+
+
+guarantee dontCoolIfCold:
+  G t=COLD -> valve=CLOSED;

@@ -1,0 +1,26 @@
+
+module Satellite
+
+env Int(0..3) telPos;
+
+sys {LEFT, OFF, RIGHT} telMot;
+
+define
+  P1 := telPos=0;
+  P2 := telPos=3;
+
+gar
+  G (P1 -> telMot!=LEFT) & (P2 -> telMot!=RIGHT);
+
+asm moveLeft:
+  G (telMot=LEFT -> (next(telPos)=telPos-1 | telPos=next(telPos)));
+asm moveRight:
+  G (telMot=RIGHT -> (next(telPos)=telPos+1 | telPos=next(telPos)));
+
+gar surveilP1:
+  GF P1;
+gar surveilP2:
+  GF P2;
+gar coolEngine:
+  GF telMot=OFF;  
+  

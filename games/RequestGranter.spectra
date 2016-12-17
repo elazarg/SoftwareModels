@@ -1,0 +1,12 @@
+module RequestGranter
+
+env boolean request;
+sys boolean grant;
+
+monitor boolean waitingForGrant {
+  !waitingForGrant;
+  G ((request | waitingForGrant) & !grant -> next(waitingForGrant));
+  G (grant -> next(!waitingForGrant));  
+}
+
+guarantee alwaysEventuallyGrant:  GF !waitingForGrant;
